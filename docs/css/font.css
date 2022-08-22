@@ -1,0 +1,7 @@
+/* fallback */
+@font-face {
+    font-family: 'From the stars';
+    font-style: normal;
+    font-weight: 100 700;
+    src: url(FromtheStarsRg-Bold.woff) format('woff');
+}

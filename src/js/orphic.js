@@ -129,7 +129,8 @@ function OrphicUI() {
         theme: "data-osel",
         color: "data-ocolor",
         blurType: "data-oblur",
-        blurRadius: "data-oblurrad"
+        blurRadius: "data-oblurrad",
+        depth: "data-osh"
     }
 
     this._propsList = {
@@ -139,12 +140,19 @@ function OrphicUI() {
     this._classList = {
         parent: "o-orphic",
         blurLayer: "o-orphic-back",
-        contentLayer: "o-orphic-layer"
+        contentLayer: "o-orphic-layer",
+        contentStroke: "o-orphic-stroke"
     }
 
     /* data-osel */
     this._defaultSelectors = {
         "th-odef-smoke" : "def_smoke"
+    }
+
+    this._depthList = {
+        dropMode: 'o-drop',
+        boxMode: 'o-box',
+        none: 'o-none'
     }
 
     this._themes = {};
@@ -185,16 +193,44 @@ function OrphicUI() {
         return selectedTheme === null ? this._defaultThemes["def_smoke"] : selectedTheme;
     }
 
+    this._getDOM = (parent, target) => {
+        /* get just from child only (i.e.: only 1 level) */
+        let e = parent.querySelectorAll(target);
+        // let g = null;
+        // parent.children.forEach(ch => {
+        //     if(ch.classList.contains(target))
+        //     {
+        //         g = ch;
+        //         break;
+        //     }
+        // });
+
+        for (let i = 0; i < parent.children.length; i++) {
+            const element = parent.children[i];
+            console.log(element)
+            if(element.classList.contains(target))
+            {
+                return element;
+            }
+        }
+
+        if(e.length > 0)
+        {
+            return e[0];
+        }
+        return null;
+    }
+
     this._getOrph = (orph) => {
         return {
             parent: {
                 element: orph,
             },
             blurLayer: {
-                element: orph.querySelector('.'+this._classList.blurLayer),
+                element: this._getDOM(orph, '.'+this._classList.blurLayer),
             },
             contentLayer: {
-                element: orph.querySelector('.'+this._classList.contentLayer),
+                element: this._getDOM(orph, '.'+this._classList.contentLayer),
             }
         };
     }
@@ -218,14 +254,17 @@ function OrphicUI() {
                     // let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                     // val = `blur(${radius}px)`;
                 }
-                else if(val === null || val === 'back')
+                else if(val === 'back')
                 {
-                    if(val === null)
-                    {
-                        val = 'back';
-                    }
+                    // if(val === null)
+                    // {
+                    //     val = 'back';
+                    // }
                     // let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                     /** backdrop-filter(radius) on parent element */
+                }
+                else if(val === "none" || val === null)
+                {
                 }
             }
 
@@ -243,7 +282,45 @@ function OrphicUI() {
         return result;
     }
 
-    this._createCss = (el, inlines, type, orph) => {
+    this._parseDepthSyntax = (str) => {
+        if(str !== null)
+        {
+            let elements = str.split(",");
+            let tree = new Object();
+            elements.map((el) => {
+                let r = el.split(":");
+                r.map((k, i) => {
+                    r[i] = k.trim()
+                });
+                tree[r[0]] = r[1] === undefined ? "<unknown>" : r[1];
+            });
+
+            return tree;
+        }
+        else
+        {
+            return {};
+        }
+    }
+
+    this._getDepthProps = (treeMap, theme) => {
+
+        /// 4 is default
+        return {
+            left: treeMap['left'] ? treeMap['left'] : 4,
+            right: treeMap['right'] ? treeMap['right'] : 4,
+            top: treeMap['top'] ? treeMap['top'] : 4,
+            bottom: treeMap['bottom'] ? treeMap['bottom'] : 4,
+            blur: treeMap['blur'] ? treeMap['blur'] : 6,
+            spread: treeMap['spread'] ? treeMap['spread'] : 0,
+            /** @todo: get defaults from theme */
+            color1: treeMap['color1'] ? treeMap['color1'] : `rgba(255, 255, 255, 1)`,
+            color2: treeMap['color2'] ? treeMap['color2'] : `rgba(0, 0, 0, 0.1)`
+        };
+
+    }
+
+    this._createCss = (el, inlines, type, orph, theme) => {
         let cssClass = this._getClassName();
         let cssRule = this._styler.createRule("class", cssClass);
         let cssProps = [];
@@ -254,21 +331,58 @@ function OrphicUI() {
                 {
                     cssProps.push(this._styler.createProperty(this._propsList[k], inlines[k]));
                 }
+                else if(this._attrsList[k] === this._attrsList.depth && type==="parent")
+                {
+                    let depthVal = this._parseDepthSyntax(inlines[k]);
+                    
+                    if(depthVal[this._depthList.dropMode] === '<unknown>')
+                    {
+                        // console.log("DropShadow");
+                        let depthProps = this._getDepthProps(depthVal, theme);
+                        let val1 = `drop-shadow(-${depthProps.left}px -${depthProps.top}px ${depthProps.blur}px ${depthProps.color1})`;
+                        let val2 = `drop-shadow(${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.color2})`;
+                        let fval = `${val1} ${val2}`;
+                        cssProps.push(this._styler.createProperty("filter", fval));
+                    }
+                    else if(depthVal[this._depthList.boxMode] === '<unknown>')
+                    {
+                        // console.log("BoxShadow");
+                        let depthProps = this._getDepthProps(depthVal, theme);
+                        let val1 = `-${depthProps.left}px -${depthProps.top}px ${depthProps.blur}px ${depthProps.spread}px ${depthProps.color1}`;
+                        let val2 = `${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.spread}px ${depthProps.color2}`;
+                        let fval = `${val1}, ${val2}`;
+                        cssProps.push(this._styler.createProperty("box-shadow", fval));
+                    }
+                    else if(depthVal[this._depthList.none] === '<unknown>')
+                    {
+                        // console.log("NoneShadow");
+                    }
+                    else
+                    {
+                        // console.log("DefaultShadow");
+                    }
+                    
+                }
                 else if(this._attrsList[k] === this._attrsList.blurType && type==="blur")
                 {
                     
                     if(inlines[k] === "front")
                     {
+                        console.log("GotFront")
                         let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                         let val = `blur(${radius}px)`;
                         cssProps.push(this._styler.createProperty("filter", val));
                     }
                     else if(inlines[k] === "back")
                     {
+                        console.log("GotBack")
                         let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                         let val = `blur(${radius}px)`;
                         // cssProps.push(this._styler.createProperty("filter", val));
-                        orph.contentLayer.element.style.backdropFilter = val;
+                        if(orph.contentLayer.element)
+                        {
+                            orph.contentLayer.element.style.backdropFilter = val;
+                        }
                         /* Actually we have to do the blur on contentLayer */
                     }
                 }
@@ -292,11 +406,11 @@ function OrphicUI() {
 
         if(orph.blurLayer.element === null) return;
         let inlinesB = this._getElementInlineOverrides(orph.blurLayer, true, theme);
-        console.log(orph)
+        // console.log(orph)
 
-        let blurLayerCss = this._createCss(orph.blurLayer, inlinesB, "blur", orph);
+        let blurLayerCss = this._createCss(orph.blurLayer, inlinesB, "blur", orph, theme);
 
-        console.log(blurLayerCss)
+        // console.log(blurLayerCss)
         this._styler.insertRule(blurLayerCss.cssRule, blurLayerCss.cssProps);
         orph.blurLayer.element.classList.add(blurLayerCss.cssClass);
 
@@ -311,6 +425,9 @@ function OrphicUI() {
         for (let i = 0; i < orphs.length; i++) {
             
             var orph = this._getOrph(orphs[i]);
+
+            console.log(orph)
+
             var selectedTheme = this._getTheme(this._getAttr(orph.parent.element, this._attrsList.theme));
 
             this._generateCssRules(orph, selectedTheme);

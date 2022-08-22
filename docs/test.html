@@ -22,23 +22,34 @@
         .mydialog {
             width: 300px;
             height: 200px;
+            margin-bottom: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .mydialog > .mydialogReal
+        {
+            padding: 20px;
         }
         .mydialog2 {
             width: 300px;
             height: 100px;
+            border-radius: 12px;
         }
     </style>
     
-    <div class="o-orphic mydialog" data-osel="th-odef-smoke">
+    <!--(spread only for "box", "none" also) data-oshval="leftTop: 4; rightBottom: 4, blur: 16, spread: 8" or "left: 4, right: 4, top: 8, bottom: 9" -->
+    <div class="o-orphic mydialog" data-osh="o-drop, left: 4, right: 8, top: 10, bottom: 6, blur: 9, spread: 0" data-osel="th-odef-smoke">
         <div class="o-orphic-back" data-oblur="back" data-oblurrad="9">
             <h1>I am from the back</h1>
         </div>
-        <div class="o-orphic-layer">
-            <h1>I am</h1>
+        <div class="o-orphic-layer mydialogReal">
+            <div class="o-orphic-stroke mydialogReal">
+                <h1>I am</h1>
+            </div>
         </div>
     </div>
-
-    <div class="o-orphic mydialog2" data-osel="th-odef-smoke" data-ocolor="#0077ff">
+    <!-- if you write rgba(xx,xx) then it will not work -->
+    <div class="o-orphic mydialog2" data-osh="o-box, left: 12, right: 12, top: 12, bottom: 12, blur: 16, spread: 0, color1: #ffffff, color2: #00000021" data-osel="th-odef-smoke">
         <div class="o-orphic-back" data-oblur="front">
             <h1>I am from the back</h1>
         </div>
