@@ -6,7 +6,7 @@
 - **orphic** features a reactive, dynamic and small js/css library.
 - **orphic** is highly tweakable, it have strong emphasis to be easy for developers to build their UI on it.
 - **orphic** tried to be faster and it is fast.
-- **orphic** supports all browsers.
+- **orphic** supports all generally uses browsers.
 - **orphic** is currently only on web, but our mission is to make it for all platforms.
 - **orphic** is currently in its **alpha** stage.
 
