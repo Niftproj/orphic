@@ -11,7 +11,7 @@
 - **orphic** is currently in its **alpha** stage.
 
 # Usage
-- We are working on **Documentation**, currently we have few plenty of examples to show you.
+- We are working on **Documentation**, currently we have plenty of few examples to show you.
 
 # Examples
 <!-- - As **orphic** is in alpha stage, we have currently very less examples to show you. -->
