@@ -5,27 +5,28 @@
   "main": "index.js",
   "scripts": {
     "build-sass": "sass src/scss/* dist/css/o.css",
-    "minify": "uglifyjs --watch src/js/orphic.js -o dist/js/o.min.js",
-    "watch": "sass --watch src/scss/* dist/css/o.css"
+    "minify": "uglifyjs src/js/orphic.js -o dist/js/o.min.js",
+    "watch": "sass --watch src/scss/* dist/css/o.css",
+    "build": "npm run minify && npm run build-sass"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/g.com/hh.git"
+    "url": "https://github.com/Niftproj/orphic.git"
   },
   "keywords": [
     "orphic",
     "nift",
     "ui"
   ],
-  "author": "ashusharma",
+  "author": "ashusharma.sigmadev@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/g.com/hh/issues"
+    "url": "https://github.com/Niftproj/orphic/issues"
   },
   "devDependencies": {
     "sass": "1.32.6"
   },
-  "homepage": "https://github.com/g.com/hh#readme",
+  "homepage": "https://github.com/Niftproj/orphic#readme",
   "dependencies": {
     "minify": "^9.1.0",
     "uglify-js": "^3.17.0"

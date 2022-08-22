@@ -196,18 +196,9 @@ function OrphicUI() {
     this._getDOM = (parent, target) => {
         /* get just from child only (i.e.: only 1 level) */
         let e = parent.querySelectorAll(target);
-        // let g = null;
-        // parent.children.forEach(ch => {
-        //     if(ch.classList.contains(target))
-        //     {
-        //         g = ch;
-        //         break;
-        //     }
-        // });
 
         for (let i = 0; i < parent.children.length; i++) {
             const element = parent.children[i];
-            console.log(element)
             if(element.classList.contains(target))
             {
                 return element;
