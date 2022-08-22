@@ -7,7 +7,7 @@
 - **orphic** is highly tweakable, it have strong emphasis to be easy for developers to build their UI on it.
 - **orphic** tried to be faster and it is fast.
 - **orphic** supports all generally uses browsers.
-- **orphic** is currently only on web, but our mission is to make it for all platforms.
+- **orphic** is currently only on web, but our mission is to make it for all platforms including web frameworks like **reactjs** etc.
 - **orphic** is currently in its **alpha** stage.
 
 # Usage
@@ -15,9 +15,12 @@
 
 # Examples
 <!-- - As **orphic** is in alpha stage, we have currently very less examples to show you. -->
-- [Simple boxes](docs/test.html)
-- [Simple circle](docs/test2.html)
-- [Orphic logo](docs/o.html)
+- [Simple boxes](tests/test.html)
+- [Simple circle](tests/test2.html)
+- [Orphic logo](tests/o.html)
+
+# Feedback
+- We would like to hear a feedback from you, write your feedback to [issues](https://github.com/Niftproj/orphic/issues), we will reach at you.
 
 # License
 <a href="https://opensource.org/licenses/MIT">
