@@ -276,9 +276,55 @@ function OrphicUI() {
     this._parseDepthSyntax = (str) => {
         if(str !== null)
         {
-            let elements = str.split(",");
+            let fstr = '';
+            var brac_opened = -1;
+            for (let i = 0; i < str.length; i++) {
+                if(str[i] === `(` && brac_opened === -1)
+                {
+                    brac_opened = i;
+                }
+                else if(str[i] === `)` && brac_opened != -1)
+                {
+                    brac_opened = -1;
+                }
+
+                // if(brac_opened !== -1 && str[i] === ',')
+                // {
+                //     fstr += '|';
+                // }
+
+                if(brac_opened !== -1)
+                {
+                    if(str[i] === ',')
+                    {
+                        fstr += '|';
+                    }
+                    else
+                    {
+                        fstr += str[i];
+                    }
+                }
+                else
+                {
+                    fstr += str[i];
+                }
+            }
+
+            let elements = fstr.split(",");
             let tree = new Object();
-            elements.map((el) => {
+            elements.map((ell) => {
+                let el = '';
+                for (let i = 0; i < ell.length; i++) {
+                    if(ell[i] === '|')
+                    {
+                        el += ',';
+                    }
+                    else
+                    {
+                        el += ell[i];
+                    }
+                }
+                // console.log(el)
                 let r = el.split(":");
                 r.map((k, i) => {
                     r[i] = k.trim()
@@ -359,14 +405,14 @@ function OrphicUI() {
                     
                     if(inlines[k] === "front")
                     {
-                        console.log("GotFront")
+                        // console.log("GotFront")
                         let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                         let val = `blur(${radius}px)`;
                         cssProps.push(this._styler.createProperty("filter", val));
                     }
                     else if(inlines[k] === "back")
                     {
-                        console.log("GotBack")
+                        // console.log("GotBack")
                         let radius = this._getAttr(el.element, this._attrsList.blurRadius) || 10;
                         let val = `blur(${radius}px)`;
                         // cssProps.push(this._styler.createProperty("filter", val));
@@ -417,7 +463,7 @@ function OrphicUI() {
             
             var orph = this._getOrph(orphs[i]);
 
-            console.log(orph)
+            // console.log(orph)
 
             var selectedTheme = this._getTheme(this._getAttr(orph.parent.element, this._attrsList.theme));
 
