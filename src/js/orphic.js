@@ -127,6 +127,7 @@ function OrphicUI() {
 
     this._attrsList = {
         theme: "data-osel",
+        textElement: "data-otext",
         color: "data-ocolor",
         blurType: "data-oblur",
         blurRadius: "data-oblurrad",
@@ -152,6 +153,7 @@ function OrphicUI() {
     this._depthList = {
         dropMode: 'o-drop',
         boxMode: 'o-box',
+        textMode: 'o-text',
         none: 'o-none'
     }
 
@@ -372,6 +374,12 @@ function OrphicUI() {
                 {
                     let depthVal = this._parseDepthSyntax(inlines[k]);
                     
+                    // // is text element
+                    // if(this._attrsList[k] === this._attrsList.textElement)
+                    // {
+                    //     console.log("I am text");
+                    // }
+
                     if(depthVal[this._depthList.dropMode] === '<unknown>')
                     {
                         // console.log("DropShadow");
@@ -380,6 +388,15 @@ function OrphicUI() {
                         let val2 = `drop-shadow(${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.color2})`;
                         let fval = `${val1} ${val2}`;
                         cssProps.push(this._styler.createProperty("filter", fval));
+                    }
+                    else if(depthVal[this._depthList.textMode] === '<unknown>')
+                    {
+                        // console.log("DropShadow");
+                        let depthProps = this._getDepthProps(depthVal, theme);
+                        let val1 = `-${depthProps.left}px -${depthProps.top}px ${depthProps.blur}px ${depthProps.color1}`;
+                        let val2 = `${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.color2}`;
+                        let fval = `${val1}, ${val2}`;
+                        cssProps.push(this._styler.createProperty("text-shadow", fval));
                     }
                     else if(depthVal[this._depthList.boxMode] === '<unknown>')
                     {
@@ -432,6 +449,8 @@ function OrphicUI() {
 
     this._generateCssRules = (orph, theme) => {
         
+        // console.log(orph)
+
         let inlines = this._getElementInlineOverrides(orph.parent, true, theme);
         
         let parentCss = {};
@@ -462,8 +481,6 @@ function OrphicUI() {
         for (let i = 0; i < orphs.length; i++) {
             
             var orph = this._getOrph(orphs[i]);
-
-            // console.log(orph)
 
             var selectedTheme = this._getTheme(this._getAttr(orph.parent.element, this._attrsList.theme));
 
