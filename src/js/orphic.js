@@ -154,6 +154,7 @@ function OrphicUI() {
         dropMode: 'o-drop',
         boxMode: 'o-box',
         textMode: 'o-text',
+        innerMode: 'o-in',
         none: 'o-none'
     }
 
@@ -397,6 +398,15 @@ function OrphicUI() {
                         let val2 = `${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.color2}`;
                         let fval = `${val1}, ${val2}`;
                         cssProps.push(this._styler.createProperty("text-shadow", fval));
+                    }
+                    else if(depthVal[this._depthList.innerMode] === '<unknown>')
+                    {
+                        // console.log("BoxShadow");
+                        let depthProps = this._getDepthProps(depthVal, theme);
+                        let val1 = `inset -${depthProps.left}px -${depthProps.top}px ${depthProps.blur}px ${depthProps.spread}px ${depthProps.color1}`;
+                        let val2 = `inset ${depthProps.right}px ${depthProps.bottom}px ${depthProps.blur}px ${depthProps.spread}px ${depthProps.color2}`;
+                        let fval = `${val1}, ${val2}`;
+                        cssProps.push(this._styler.createProperty("box-shadow", fval));
                     }
                     else if(depthVal[this._depthList.boxMode] === '<unknown>')
                     {
