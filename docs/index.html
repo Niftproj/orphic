@@ -6,17 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>orphic</title>
     <link rel="stylesheet" href="./../dist/css/o.css">
-    <script src="./../dist/js/o.min.js"></script>
+    <script src="../dist/js/o.min.js"></script>
+    <link rel="stylesheet" href="./css/master.css">
 </head>
 <body>
     
-    <div class="o-navbar">
-        <div class="inner-o-navbar">
+    <div class="app-container">
 
+        <div class="orphic-navbar">
+            <div class="orphic-navbar-rsection orphic-logo">
+                
+                <div class="o-orphic o-logo-wrapper bd-rd" data-osh="o-drop, left: 12, right: 12, top: 12, bottom: 12">
 
+                    <div class="o-orphic-back bd-rd" data-oblur="none"></div>
+            
+                    <div class="o-orphic-layer pd-20">
+            
+                        <div class="o-orphic o-logo-subwrapper">
+            
+                            <div class="o-orphic o-logo-subbwrapper">
+            
+                                <!-- <div class="o-orphic-back bd-rd" data-oblur="none"></div> -->
+            
+                                <div class="o-orphic-layer custom-co1 bd-rd">
+            
+                                </div>
+            
+                            </div>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
 
+            </div>
+            <div class="o-orphic orphic-navbar-section" data-osh="o-box, left: 6, right: 6, top: 6, bottom: 6, blur: 12">
+                <ul class="o-orphic-layer">
+                    <li class="orphic-nav-item active">
+                        <a href="#">Preview</a>
+                    </li>
+                    <li class="orphic-nav-item">
+                        <a href="#">Explore Docs</a>
+                    </li>
+                    <li class="orphic-nav-item">
+                        <a href="#">Examples</a>
+                    </li>
+                    <li class="orphic-nav-item">
+                        <a href="#">Github</a>
+                    </li>
+                    <li class="o-orphic orphic-nav-item custom-cute" data-osh="o-drop">
+                        <button class="o-orphic-layer">
+                            <span>menu</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </div>
+
     </div>
+
+    <script>
+        let orphic = new OrphicUI();
+        orphic.init(document);
+        orphic.render(document);
+    </script>
 
 </body>
 </html>
