@@ -10,6 +10,10 @@
 - **orphic** is currently only on web, but our mission is to make it for all platforms including web frameworks like **reactjs** etc.
 - **orphic** is currently in its **alpha** stage.
 
+# CDN links
+- https://cdn.jsdelivr.net/gh/Niftproj/orphic/dist/js/o.min.js
+- https://cdn.jsdelivr.net/gh/Niftproj/orphic/dist/css/o.css
+
 # Usage
 - We are working on **Documentation**, currently we have plenty of few examples to show you.
 
